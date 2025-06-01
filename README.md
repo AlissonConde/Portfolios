@@ -42,15 +42,52 @@ Caso você tenha acesso como colaborador, sinta-se à vontade para:
 ## 📌 Regras de Contribuição
 
 1. Nomeie sua pasta com clareza (ex: `site-pizzaria`, `projeto-topologia`, `sistema-cadastro`).
-2. Adicione um `README.md` **dentro de cada pasta**, explicando do que se trata o projeto.
-3. Sempre use commits com mensagens descritivas.
-4. Evite sobrescrever arquivos de outras pessoas.
+2. Sempre use commits com mensagens descritivas.
+3. Evite sobrescrever arquivos de trabalho de outras pessoas, avise as alteracoes nos projetos.
 
 ---
 
-## 📬 Contato
+# 🚀 Guia para Usar o Git e o GitHub
 
-Caso tenha dúvidas ou sugestões, entre em contato com os responsáveis por este repositório diretamente pelo GitHub.
+Este é um passo a passo simples para **enviar suas alterações locais** para o GitHub e manter tudo sincronizado com o grupo! 🤝
+
+---
+
+## 📌 Etapas para enviar alterações (push)
+
+### Faça alterações nos seus arquivos localmente  
+Edite, crie ou exclua arquivos na sua máquina como preferir.
+
+---
+
+### Abra o Terminal ou CMD  
+No **Linux**: use o Terminal  
+No **Windows**: use o CMD ou PowerShell  
+Vá até a pasta do projeto onde está o repositório Git.
+
+---
+
+```bash
+# 1️⃣ Verifique o status das alterações
+git status
+
+# 2️⃣ Adicione as alterações para preparar o envio
+
+# Para adicionar um arquivo ou pasta específica:
+git add "pasta/arquivo.ext"
+
+# Ou para adicionar todas as alterações de uma vez (não esqueça do ponto no final):
+git add .
+
+# 3️⃣ Verifique novamente se as alterações foram adicionadas
+git status
+
+# 4️⃣ Faça o commit com uma mensagem explicando o que foi alterado
+git commit -m "Comentário sobre a alteração"
+
+# 5️⃣ Envie para o GitHub (branch master)
+git push origin master
+
 
 ---
 

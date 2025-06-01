@@ -12,17 +12,17 @@ Este espaço foi criado para reunir trabalhos desenvolvidos por estudantes do cu
 
 ## 📁 Organização do Repositório
 
-Cada pasta representa um projeto ou trabalho individual.  
-Veja abaixo alguns exemplos da estrutura:
+🧠 Explicando as principais pastas
 
-portifolios/
-├── desenvolvimento-web/
-│ └── site-clinica/
-├── redes/
-│ └── topologia-simulada/
-├── sistemas/
-│ └── sistema-login/
-├── README.md
+    sistemas/: onde ficam os projetos de desenvolvimento em grupo ou individuais (sistemas web, APIs, apps etc.)
+
+    trabalhos-faculdade/: dividido por disciplinas. Dá pra colocar códigos, PDFs, apresentações etc.
+
+    projetos-ti/: ideias, testes, experimentos ou aplicações envolvendo TI (ex: segurança, automação, redes).
+
+    docs/: documentação geral do repositório, instruções para o grupo, anotações importantes.
+
+    .gitignore: para ignorar arquivos desnecessários no repositório (como .vscode, arquivos temporários, etc.)
 
 
 ---

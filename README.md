@@ -88,6 +88,44 @@ git commit -m "Comentário sobre a alteração"
 # 5️⃣ Envie para o GitHub (branch master)
 git push origin master
 
+# 🔄 Guia para Usar o Pull (Atualizar seu Repositório Local)
+
+Este guia explica como **trazer as atualizações do GitHub para sua máquina local**. Isso garante que todos trabalhem com a versão mais recente do projeto! ⚙️📥
+
+---
+
+## 🧭 Quando usar o `git pull`?
+
+Sempre que alguém do grupo fizer alterações no repositório do GitHub (como adicionar arquivos, editar ou excluir), **você deve usar o `pull` antes de começar a trabalhar** para evitar conflitos.
+
+---
+
+## 🛠️ Como fazer o pull
+
+Abra o **Terminal (Linux)** ou **CMD/PowerShell (Windows)**, vá até a pasta onde está seu projeto com Git configurado, e siga os passos:
+
+---
+
+```bash
+# 1️⃣ Acesse a pasta do seu projeto
+cd caminho/para/seu/projeto
+
+# 2️⃣ Verifique se está na branch master (opcional)
+git branch
+
+# 3️⃣ Traga as atualizações do GitHub para o seu repositório local
+git pull origin master
+
+# 4️⃣ Pronto! Seu projeto local agora está atualizado com a versão mais recente do GitHub 🎉
+
+⚠️ Dicas Importantes
+
+    Use o git pull antes de começar qualquer modificação no projeto.
+
+    Se houver conflitos (ex: duas pessoas alteraram o mesmo arquivo), o Git irá te avisar e você poderá resolver manualmente.
+
+    Mantenha seu repositório local sempre sincronizado com o GitHub!
+
 
 ---
 

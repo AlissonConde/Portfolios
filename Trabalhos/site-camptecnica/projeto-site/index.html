@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVP | Assistente virtual</title>
+    <link rel="icon" href="imagens/logo_camptecnica.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#c62828" />
+
+</head>
+<body>
+    <header>
+        <h1>AVP | Assistente Virtual de Peças</h1>
+    </header>
+
+    <main>
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Digite o modelo do relógio ou peça aqui..."
+            oninput="buscarTudo()"
+        />
+        <div id="resultado"></div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

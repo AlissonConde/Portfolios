@@ -16,7 +16,7 @@ Este espaço foi criado para reunir trabalhos desenvolvidos por estudantes do cu
 
     Sistemas: onde ficam os projetos de desenvolvimento em grupo ou individuais (sistemas web, APIs, apps etc.)
 
-    Portifolios: dividido por disciplinas. Dá pra colocar códigos, PDFs, apresentações etc.
+    Portifolios: Dá pra colocar códigos, projetos, PDFs, apresentações etc.
 
     Projetos-TI: ideias, testes, experimentos ou aplicações envolvendo TI (ex: segurança, automação, redes).
 

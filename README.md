@@ -14,16 +14,15 @@ Este espaço foi criado para reunir trabalhos desenvolvidos por estudantes do cu
 
 🧠 Explicando as principais pastas
 
-    sistemas/: onde ficam os projetos de desenvolvimento em grupo ou individuais (sistemas web, APIs, apps etc.)
+    Sistemas: onde ficam os projetos de desenvolvimento em grupo ou individuais (sistemas web, APIs, apps etc.)
 
-    trabalhos-faculdade/: dividido por disciplinas. Dá pra colocar códigos, PDFs, apresentações etc.
+    Portifolios: dividido por disciplinas. Dá pra colocar códigos, PDFs, apresentações etc.
 
-    projetos-ti/: ideias, testes, experimentos ou aplicações envolvendo TI (ex: segurança, automação, redes).
+    Projetos-TI: ideias, testes, experimentos ou aplicações envolvendo TI (ex: segurança, automação, redes).
 
-    docs/: documentação geral do repositório, instruções para o grupo, anotações importantes.
+    docs: documentação geral do repositório, instruções para o grupo, anotações importantes.
 
     .gitignore: para ignorar arquivos desnecessários no repositório (como .vscode, arquivos temporários, etc.)
-
 
 ---
 

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes de Sincronização - Minhas Contas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .test-button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #ff6b6b;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .status.success { background: #2ed573; }
+        .status.error { background: #ff6b6b; }
+        .status.warning { background: #ffa502; }
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Testes de Sincronização Automática</h1>
+    
+    <div class="test-section">
+        <h2>📊 Status da Aplicação</h2>
+        <div id="status-app"></div>
+        <button class="test-button" onclick="atualizarStatus()">🔄 Atualizar Status</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🔗 Teste de Conectividade</h2>
+        <button class="test-button" onclick="testarBackend()">🌐 Testar Backend</button>
+        <button class="test-button" onclick="testarLocalStorage()">💾 Testar localStorage</button>
+        <div id="resultado-conectividade"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Teste de Sincronização</h2>
+        <button class="test-button" onclick="testarSincronizacao()">🔄 Testar Sincronização</button>
+        <button class="test-button" onclick="simularDadosPendentes()">📝 Simular Dados Pendentes</button>
+        <button class="test-button" onclick="limparDadosTeste()">🧹 Limpar Dados de Teste</button>
+        <div id="resultado-sincronizacao"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Teste de Cenários</h2>
+        <button class="test-button" onclick="testarCenarioOffline()">📴 Simular Backend Offline</button>
+        <button class="test-button" onclick="testarCenarioOnline()">🌐 Simular Backend Online</button>
+        <button class="test-button" onclick="testarLimpezaAutomatica()">🧹 Testar Limpeza Automática</div>
+        <div id="resultado-cenarios"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Logs de Teste</h2>
+        <button class="test-button" onclick="limparLogs()">🗑️ Limpar Logs</button>
+        <div id="logs" class="log"></div>
+    </div>
+
+    <script src="../config.js"></script>
+    <script src="javascript/main.js"></script>
+    <script>
+        // Função para adicionar logs
+        function adicionarLog(mensagem, tipo = 'info') {
+            const logs = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `[${timestamp}] ${mensagem}`;
+            logs.appendChild(logEntry);
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        // Função para limpar logs
+        function limparLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        // Função para mostrar resultado
+        function mostrarResultado(elementId, mensagem, tipo = 'success') {
+            const elemento = document.getElementById(elementId);
+            elemento.innerHTML = `<div class="status ${tipo}">${mensagem}</div>`;
+        }
+
+        // Atualizar status da aplicação
+        async function atualizarStatus() {
+            try {
+                const status = window.app.obterStatusSincronizacao();
+                const backendOnline = await window.app.verificarStatusBackend();
+                
+                const statusHtml = `
+                    <div class="status ${backendOnline ? 'success' : 'error'}">
+                        <strong>Backend:</strong> ${backendOnline ? 'Online' : 'Offline'}
+                    </div>
+                    <div class="status ${status.dadosPendentes ? 'warning' : 'success'}">
+                        <strong>Dados Pendentes:</strong> ${status.dadosPendentes ? 'Sim' : 'Não'}
+                    </div>
+                    <div class="status ${status.sincronizacaoAtiva ? 'warning' : 'success'}">
+                        <strong>Sincronização Ativa:</strong> ${status.sincronizacaoAtiva ? 'Sim' : 'Não'}
+                    </div>
+                    <div class="status success">
+                        <strong>Última Sincronização:</strong> ${status.ultimaSincronizacao || 'Nunca'}
+                    </div>
+                `;
+                
+                document.getElementById('status-app').innerHTML = statusHtml;
+                adicionarLog('Status atualizado');
+            } catch (error) {
+                adicionarLog(`Erro ao atualizar status: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar conectividade com backend
+        async function testarBackend() {
+            try {
+                adicionarLog('Testando conectividade com backend...');
+                const online = await window.app.verificarStatusBackend();
+                
+                if (online) {
+                    mostrarResultado('resultado-conectividade', '✅ Backend online e respondendo', 'success');
+                    adicionarLog('Backend online');
+                } else {
+                    mostrarResultado('resultado-conectividade', '❌ Backend offline ou não respondendo', 'error');
+                    adicionarLog('Backend offline');
+                }
+            } catch (error) {
+                mostrarResultado('resultado-conectividade', `❌ Erro: ${error.message}`, 'error');
+                adicionarLog(`Erro no teste de backend: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar localStorage
+        function testarLocalStorage() {
+            try {
+                adicionarLog('Testando localStorage...');
+                
+                // Testar escrita
+                const testData = { teste: 'dados', timestamp: new Date().toISOString() };
+                localStorage.setItem('teste-sincronizacao', JSON.stringify(testData));
+                
+                // Testar leitura
+                const dadosLidos = localStorage.getItem('teste-sincronizacao');
+                const dadosParseados = JSON.parse(dadosLidos);
+                
+                // Limpar dados de teste
+                localStorage.removeItem('teste-sincronizacao');
+                
+                if (dadosParseados.teste === 'dados') {
+                    mostrarResultado('resultado-conectividade', '✅ localStorage funcionando corretamente', 'success');
+                    adicionarLog('localStorage OK');
+                } else {
+                    throw new Error('Dados não correspondem');
+                }
+            } catch (error) {
+                mostrarResultado('resultado-conectividade', `❌ Erro no localStorage: ${error.message}`, 'error');
+                adicionarLog(`Erro no localStorage: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar sincronização
+        async function testarSincronizacao() {
+            try {
+                adicionarLog('Testando sincronização...');
+                await window.app.sincronizarDadosPendentes();
+                mostrarResultado('resultado-sincronizacao', '✅ Teste de sincronização concluído', 'success');
+                adicionarLog('Sincronização testada');
+            } catch (error) {
+                mostrarResultado('resultado-sincronizacao', `❌ Erro na sincronização: ${error.message}`, 'error');
+                adicionarLog(`Erro na sincronização: ${error.message}`, 'error');
+            }
+        }
+
+        // Simular dados pendentes
+        function simularDadosPendentes() {
+            try {
+                adicionarLog('Simulando dados pendentes...');
+                
+                const dadosTeste = {
+                    receitas: { '05': 1000, '15': 1500, '20': 800, '30': 1200 },
+                    despesas: {
+                        '05': [{ id: 1, descricao: 'Teste', valor: 500, dia: '05' }],
+                        '15': [],
+                        '20': [],
+                        '30': []
+                    },
+                    timestamp: new Date().toISOString(),
+                    versao: '2.0',
+                    id: Date.now()
+                };
+                
+                localStorage.setItem('minhasContas', JSON.stringify(dadosTeste));
+                window.app.dadosPendentes = true;
+                
+                mostrarResultado('resultado-sincronizacao', '✅ Dados de teste criados no localStorage', 'success');
+                adicionarLog('Dados pendentes simulados');
+            } catch (error) {
+                mostrarResultado('resultado-sincronizacao', `❌ Erro ao simular dados: ${error.message}`, 'error');
+                adicionarLog(`Erro ao simular dados: ${error.message}`, 'error');
+            }
+        }
+
+        // Limpar dados de teste
+        function limparDadosTeste() {
+            try {
+                adicionarLog('Limpando dados de teste...');
+                localStorage.removeItem('minhasContas');
+                window.app.dadosPendentes = false;
+                mostrarResultado('resultado-sincronizacao', '✅ Dados de teste removidos', 'success');
+                adicionarLog('Dados de teste limpos');
+            } catch (error) {
+                mostrarResultado('resultado-sincronizacao', `❌ Erro ao limpar dados: ${error.message}`, 'error');
+                adicionarLog(`Erro ao limpar dados: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar cenário offline
+        async function testarCenarioOffline() {
+            try {
+                adicionarLog('Testando cenário offline...');
+                
+                // Simular dados pendentes
+                simularDadosPendentes();
+                
+                // Verificar se dados ficam no localStorage
+                const dadosSalvos = localStorage.getItem('minhasContas');
+                if (dadosSalvos) {
+                    mostrarResultado('resultado-cenarios', '✅ Cenário offline: dados salvos no localStorage', 'success');
+                    adicionarLog('Cenário offline testado com sucesso');
+                } else {
+                    throw new Error('Dados não foram salvos no localStorage');
+                }
+            } catch (error) {
+                mostrarResultado('resultado-cenarios', `❌ Erro no cenário offline: ${error.message}`, 'error');
+                adicionarLog(`Erro no cenário offline: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar cenário online
+        async function testarCenarioOnline() {
+            try {
+                adicionarLog('Testando cenário online...');
+                
+                // Verificar se backend está online
+                const backendOnline = await window.app.verificarStatusBackend();
+                if (!backendOnline) {
+                    mostrarResultado('resultado-cenarios', '⚠️ Backend offline - não é possível testar cenário online', 'warning');
+                    adicionarLog('Backend offline, cenário online não testado');
+                    return;
+                }
+                
+                // Simular dados e tentar sincronizar
+                simularDadosPendentes();
+                await window.app.sincronizarDadosPendentes();
+                
+                // Verificar se dados foram limpos do localStorage
+                const dadosAposSincronizacao = localStorage.getItem('minhasContas');
+                if (!dadosAposSincronizacao) {
+                    mostrarResultado('resultado-cenarios', '✅ Cenário online: dados sincronizados e localStorage limpo', 'success');
+                    adicionarLog('Cenário online testado com sucesso');
+                } else {
+                    throw new Error('Dados não foram limpos do localStorage após sincronização');
+                }
+            } catch (error) {
+                mostrarResultado('resultado-cenarios', `❌ Erro no cenário online: ${error.message}`, 'error');
+                adicionarLog(`Erro no cenário online: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar limpeza automática
+        async function testarLimpezaAutomatica() {
+            try {
+                adicionarLog('Testando limpeza automática...');
+                
+                // Simular dados
+                simularDadosPendentes();
+                
+                // Verificar se dados existem
+                const dadosAntes = localStorage.getItem('minhasContas');
+                if (!dadosAntes) {
+                    throw new Error('Dados não foram criados para teste');
+                }
+                
+                // Executar limpeza
+                window.app.limparLocalStorage();
+                
+                // Verificar se dados foram removidos
+                const dadosDepois = localStorage.getItem('minhasContas');
+                if (!dadosDepois) {
+                    mostrarResultado('resultado-cenarios', '✅ Limpeza automática funcionando corretamente', 'success');
+                    adicionarLog('Limpeza automática testada com sucesso');
+                } else {
+                    throw new Error('Dados não foram removidos do localStorage');
+                }
+            } catch (error) {
+                mostrarResultado('resultado-cenarios', `❌ Erro na limpeza automática: ${error.message}`, 'error');
+                adicionarLog(`Erro na limpeza automática: ${error.message}`, 'error');
+            }
+        }
+
+        // Inicializar página de testes
+        document.addEventListener('DOMContentLoaded', () => {
+            adicionarLog('Página de testes carregada');
+            setTimeout(atualizarStatus, 1000);
+        });
+    </script>
+</body>
+</html> 
